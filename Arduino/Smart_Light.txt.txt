@@ -1,0 +1,50 @@
+/*
+Smart light
+Arduino is connected to a light sensor and a LED.
+Arduino switches the LED on when it becomes somewhat dark.
+It switches the LED off when it is bright.
+
+Written by Pradeep Bhatter
+*/
+/* Use pin 9 to signal the LED */
+const int LED_PIN = 9 ;  
+/* Use pin 0 for reading the level of brightness from the light sensor */
+const int LIGHT_SENSOR_PIN = 0 ; 
+/* time the controller should wait before resensing - 1000 millisecond or 1 second */
+const int INTERVAL = 1000 ;  
+/* Box to store the value read from brightness sensor */
+int sensedValue ;    
+
+void setup() {
+  /* My Dear Arduino, */
+  /* Use pin 9  for telling the LED to glow or not */ 
+  pinMode(LED_PIN, OUTPUT); 
+  /* Use pin 0 to read the level of brightness from the light sensor */
+  pinMode(LIGHT_SENSOR_PIN, INPUT);
+  /* If connected to computer, set the speed to talk to it at 9600 bits/second */
+  Serial.begin(9600) ; 
+  /* Tell the computer you are ready to roll */
+  Serial.println("Ready to roll ....");
+ delay (100);
+}
+
+void loop() {
+  /* My Dear Arduino, 
+          Keep doing what I telling you here ….
+  */
+  /* Read the strength of the signal on pin connected to light sensor */
+     sensedValue  = analogRead(LIGHT_SENSOR_PIN) ; 
+    /* Read the  pin light sensor is connected to.
+     If the value read is less than 400, set LED pin to 1. It will make the LED glow. 
+     Otherwise, set the LED pin to 0. It will make the LED turn off.
+  */   
+  if (sensedValue < 400)
+        digitalWrite(LED_PIN, HIGH) ; 
+  else 
+        digitalWrite(LED_PIN, LOW) ; 
+  /*  Tell the computer, the value you read from light sensor */
+  Serial.print("Sensor Value = "); 
+  Serial.println(sensedValue); 
+  /* Wait and then go again ... */
+  delay (INTERVAL);
+}
